@@ -1,9 +1,9 @@
 package com.arkenidar.gdx.client;
 
+import com.arkenidar.gdx.MazeGame;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.gwt.GwtApplication;
 import com.badlogic.gdx.backends.gwt.GwtApplicationConfiguration;
-import com.arkenidar.gdx.MazeGame;
 
 public class HtmlLauncher extends GwtApplication {
 

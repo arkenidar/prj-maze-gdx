@@ -8,10 +8,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 public class MazeGame extends ApplicationAdapter {
+    final float spriteSize = 32;
     SpriteBatch batch;
     Texture space, wall, player, end;
     float x = 0, y = 0;
-    final float spriteSize = 32;
 
     @Override
     public void create() {
@@ -33,7 +33,14 @@ public class MazeGame extends ApplicationAdapter {
 
         ScreenUtils.clear(0, 1, 0, 1);
         batch.begin();
-        batch.draw(player, x*spriteSize, y*spriteSize);
+        Texture cell = space; // 20x15 background
+        for (int i = 0; i < 20; i++)
+            for (int j = 0; j < 15; j++)
+                batch.draw(cell, i * spriteSize, j * spriteSize);
+
+        cell = player;
+        batch.draw(cell, x * spriteSize, y * spriteSize);
+
         batch.end();
     }
 
