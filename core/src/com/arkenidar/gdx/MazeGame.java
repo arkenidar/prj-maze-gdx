@@ -15,6 +15,9 @@ public class MazeGame extends ApplicationAdapter {
     int x = 0, y = 0;
     char[][] grid;
 
+    int level = 0;
+    String[] levels = {"map01.txt", "map02.txt", "map03.txt"};
+
     @Override
     public void create() {
         batch = new SpriteBatch();
@@ -24,14 +27,26 @@ public class MazeGame extends ApplicationAdapter {
         player = new Texture("P.bmp");
         end = new Texture("E.bmp");
 
+        loadMap(levels[level++]);
+    }
 
-        FileHandle file = Gdx.files.internal("map01.txt");
+    private void loadMap(String filePath) {
+        x = 0;
+        y = 0;
+        FileHandle file = Gdx.files.internal(filePath);
         String text = file.readString();
         String[] lines = text.split("\n");
         grid = new char[lines.length][lines[0].length()];
         for (int i = 0; i < lines.length; i++) {
             String line = lines[i];
             char[] row = line.toCharArray();
+            for (int j = 0; j < row.length; j++) {
+                if (row[j] == 'P') {
+                    x = j;
+                    y = i;
+                    row[j] = ' ';
+                }
+            }
             grid[i] = row;
         }
     }
@@ -53,6 +68,8 @@ public class MazeGame extends ApplicationAdapter {
                 if (grid[ny][nx] == ' ') {
                     x = nx;
                     y = ny;
+                } else if (grid[ny][nx] == 'E') {
+                    loadMap(levels[level++]);
                 }
             } else {
                 x = nx;
@@ -70,6 +87,9 @@ public class MazeGame extends ApplicationAdapter {
                     switch (grid[j][i]) {
                         case '#':
                             cell = wall;
+                            break;
+                        case 'E':
+                            cell = end;
                             break;
                     }
                 batch.draw(cell, i * spriteSize, (height - 1 - j) * spriteSize);
